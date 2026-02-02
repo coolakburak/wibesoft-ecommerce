@@ -1,13 +1,23 @@
 "use client";
-import { X, ChevronRight, Check } from "lucide-react";
+import { X, Check } from "lucide-react";
+
+interface FilterDrawerProps {
+  isOpen: boolean;
+  onClose: () => void;
+  priceRange: number;
+  setPriceRange: (value: number) => void;
+  selectedColors: string[];
+  toggleColor: (color: string) => void;
+}
 
 export default function FilterDrawer({
   isOpen,
   onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) {
+  priceRange,
+  setPriceRange,
+  selectedColors,
+  toggleColor,
+}: FilterDrawerProps) {
   if (!isOpen) return null;
 
   return (
@@ -23,13 +33,17 @@ export default function FilterDrawer({
         {/* Fiyat Aralığı (Slider mantığı) */}
         <div className="mb-8 border-b pb-8">
           <h3 className="font-bold mb-4">Price</h3>
-          <div className="h-1 bg-[#F0F0F0] relative rounded-full">
-            <div className="absolute left-[10%] right-[30%] h-full bg-black rounded-full"></div>
-            <div className="absolute left-[10%] -top-1.5 w-4 h-4 bg-black rounded-full"></div>
-            <div className="absolute right-[30%] -top-1.5 w-4 h-4 bg-black rounded-full"></div>
-          </div>
+          <input
+            type="range"
+            min="0"
+            max="1000"
+            value={priceRange}
+            onChange={(e) => setPriceRange(Number(e.target.value))}
+            className="w-full accent-black"
+          />
           <div className="flex justify-between mt-4 font-bold text-sm">
-            <span>$50</span> <span>$200</span>
+            <span>$0</span>
+            <span>${priceRange}</span>
           </div>
         </div>
 
@@ -38,24 +52,29 @@ export default function FilterDrawer({
           <h3 className="font-bold mb-4">Colors</h3>
           <div className="flex flex-wrap gap-3">
             {[
-              "bg-green-500",
-              "bg-red-500",
-              "bg-yellow-400",
-              "bg-orange-500",
-              "bg-cyan-400",
-              "bg-blue-700",
-              "bg-purple-600",
-              "bg-pink-500",
-              "bg-white",
-              "bg-black",
-            ].map((color, i) => (
-              <div
-                key={i}
-                className={`w-9 h-9 rounded-full border border-black/10 ${color} flex items-center justify-center cursor-pointer`}
+              "#00C12B",
+              "#F50606",
+              "#F5DD06",
+              "#F57906",
+              "#06CAF5",
+              "#063AF5",
+              "#7D06F5",
+              "#F506A4",
+            ].map((color) => (
+              <button
+                key={color}
+                onClick={() => toggleColor(color)}
+                className={`w-9 h-9 rounded-full border-2 flex items-center justify-center transition-all ${
+                  selectedColors.includes(color)
+                    ? "border-black scale-110"
+                    : "border-black/10"
+                }`}
+                style={{ backgroundColor: color }}
               >
-                {i === 5 && <Check size={16} color="white" />}{" "}
-                {/* Örnek seçili */}
-              </div>
+                {selectedColors.includes(color) && (
+                  <Check size={16} color="white" strokeWidth={3} />
+                )}
+              </button>
             ))}
           </div>
         </div>
@@ -75,7 +94,7 @@ export default function FilterDrawer({
             ].map((size) => (
               <button
                 key={size}
-                className={`px-5 py-2.5 rounded-full text-sm font-medium ${size === "Large" ? "bg-black text-white" : "bg-[#F0F0F0] text-black/60"}`}
+                className="px-5 py-2.5 rounded-full text-sm font-medium bg-[#F0F0F0] text-black/60"
               >
                 {size}
               </button>
@@ -83,7 +102,10 @@ export default function FilterDrawer({
           </div>
         </div>
 
-        <button className="w-full bg-black text-white py-4 rounded-full font-bold text-lg mb-10">
+        <button
+          onClick={onClose}
+          className="w-full bg-black text-white py-4 rounded-full font-bold text-lg mb-10 hover:bg-black/80 transition"
+        >
           Apply Filter
         </button>
       </div>

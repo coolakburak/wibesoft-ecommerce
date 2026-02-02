@@ -11,17 +11,25 @@ export default function HomePage() {
   const { data: newArrivals, isLoading } = useProducts(4);
   const categories = [
     {
-      title: "Casual",
+      title: "Men's Clothing",
       slug: "men's clothing",
-      imageUrl: "/categories/casual.jpg",
+      imageUrl: "/categories/mens-clothing.jpg",
     },
     {
-      title: "Formal",
+      title: "Women's Clothing",
       slug: "women's clothing",
-      imageUrl: "/categories/formal.jpg",
+      imageUrl: "/categories/womens-clothing.jpg",
     },
-    { title: "Party", slug: "jewelery", imageUrl: "/categories/party.jpg" },
-    { title: "Gym", slug: "electronics", imageUrl: "/categories/gym.jpg" },
+    {
+      title: "Jewelery",
+      slug: "jewelery",
+      imageUrl: "/categories/jewelery.jpg",
+    },
+    {
+      title: "Electronics",
+      slug: "electronics",
+      imageUrl: "/categories/electronics.jpg",
+    },
   ];
 
   return (
