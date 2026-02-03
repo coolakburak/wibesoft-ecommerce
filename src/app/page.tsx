@@ -4,44 +4,54 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ProductCard from "@/components/ProductCard";
 import { useProducts } from "@/hooks/useProducts";
-import CategoryCard from "@/components/CategoryCard";
+import Footer from "@/components/Footer";
+import TopSelling from "@/components/TopSelling";
+import CustomerReviews from "@/components/CustomerReviews";
+import DressStyle from "@/components/DressStyle";
 
 export default function HomePage() {
-  // Tasarımdaki "New Arrivals" için ilk 4 ürünü çekiyoruz
   const { data: newArrivals, isLoading } = useProducts(4);
+
   const categories = [
     {
-      title: "Casual",
+      title: "Men's Clothing",
       slug: "men's clothing",
-      imageUrl: "/categories/casual.jpg",
+      imageUrl: "/categories/mens-clothing.jpg",
     },
     {
-      title: "Formal",
+      title: "Women's Clothing",
       slug: "women's clothing",
-      imageUrl: "/categories/formal.jpg",
+      imageUrl: "/categories/womens-clothing.jpg",
     },
-    { title: "Party", slug: "jewelery", imageUrl: "/categories/party.jpg" },
-    { title: "Gym", slug: "electronics", imageUrl: "/categories/gym.jpg" },
+    {
+      title: "Jewelery",
+      slug: "jewelery",
+      imageUrl: "/categories/jewelery.jpg",
+    },
+    {
+      title: "Electronics",
+      slug: "electronics",
+      imageUrl: "/categories/electronics.jpg",
+    },
   ];
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
       <Hero />
 
-      <main className="container mx-auto px-4 py-12">
-        {/* NEW ARRIVALS SECTION */}
-        <section>
+      <main className="flex-grow">
+        {/* NEW ARRIVALS */}
+        <section className="container mx-auto px-4 py-12">
           <h2 className="text-3xl lg:text-5xl font-black text-center mb-8 lg:mb-14 uppercase">
             New Arrivals
           </h2>
-
           {isLoading ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 animate-pulse">
               {[1, 2, 3, 4].map((i) => (
                 <div
                   key={i}
-                  className="aspect-square bg-gray-100 animate-pulse rounded-2xl"
+                  className="aspect-square bg-gray-100 rounded-2xl"
                 />
               ))}
             </div>
@@ -52,46 +62,27 @@ export default function HomePage() {
               ))}
             </div>
           )}
-
-          <div className="mt-8 flex justify-center">
-            <button className="px-12 py-3 border border-gray-200 rounded-full font-medium hover:bg-gray-50 transition-all w-full md:w-auto">
+          <div className="mt-8 flex justify-center border-b pb-16">
+            <button className="px-12 py-3 border border-gray-200 rounded-full font-medium hover:bg-black hover:text-white transition-all w-full md:w-auto">
               View All
             </button>
           </div>
         </section>
 
-        <hr className="my-16 border-gray-100" />
+        {/* TOP SELLING */}
+        <TopSelling />
 
-        {/* BROWSE BY DRESS STYLE SECTION */}
-        <section className="mb-16">
-          <h2 className="text-3xl lg:text-5xl font-black text-center mb-8 lg:mb-14 uppercase">
-            Browse by Dress Style
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {categories.map((cat) => (
-              <CategoryCard
-                key={cat.title}
-                title={cat.title}
-                imageUrl={cat.imageUrl}
-                linkHref={`/category/${encodeURIComponent(cat.slug)}?title=${cat.title}`}
-              />
-            ))}
-          </div>
+        {/* DRESS STYLE */}
+        <section className="container mx-auto px-4 py-12">
+          <DressStyle />
         </section>
 
-        <hr className="my-16 border-gray-100" />
-
-        {/* TOP SELLING SECTION (İkinci bir liste olarak eklenebilir) */}
-        <section className="mb-16">
-          <h2 className="text-3xl lg:text-5xl font-black text-center mb-8 lg:mb-14 uppercase">
-            Top Selling
-          </h2>
-          <div className="text-center text-gray-400">
-            {/* Buraya da benzer bir grid yapısı gelecek */}
-            Gelecek ürünler...
-          </div>
-        </section>
+        {/* REVIEWS */}
+        <CustomerReviews />
       </main>
-    </>
+
+      {/* FOOTER - Mutlaka main dışına almalısın */}
+      <Footer />
+    </div>
   );
 }

@@ -1,24 +1,83 @@
 "use client";
 
 import { useState } from "react";
-import { useParams } from "next/navigation";
-import { useProducts } from "@/hooks/useProducts";
+import { useParams, useSearchParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { Product } from "@/types";
 import ProductCard from "@/components/ProductCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FilterDrawer from "@/components/FilterDrawer"; // Mobil filtre bileşeni
 import { SlidersHorizontal, ChevronRight } from "lucide-react";
 
+// Renk atama fonksiyonu (API'de renk verisi olmadığı için)
+const getProductColors = (productId: number): string[] => {
+  const colorPalette = [
+    "#00C12B",
+    "#F50606",
+    "#F5DD06",
+    "#F57906",
+    "#06CAF5",
+    "#063AF5",
+    "#7D06F5",
+    "#F506A4",
+  ];
+  // Her ürüne ID'sine göre 1-3 arası renk ata
+  const numColors = (productId % 3) + 1;
+  const startIdx = productId % colorPalette.length;
+  return Array.from(
+    { length: numColors },
+    (_, i) => colorPalette[(startIdx + i) % colorPalette.length],
+  );
+};
+
 export default function CategoryPage() {
-  const { slug } = useParams();
-  const { data: products, isLoading } = useProducts();
+  const params = useParams();
+  const searchParams = useSearchParams();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Filtre State'leri
-  const [priceRange, setPriceRange] = useState(200);
+  const slug = decodeURIComponent(params.slug as string);
+  const displayTitle = searchParams.get("title") || slug;
 
-  // Filtreleme Fonksiyonu (İstemci tarafında simüle ediyoruz)
-  const filteredProducts = products?.filter((p) => p.price <= priceRange);
+  // Kategoriye göre ürünleri çek
+  const { data: products, isLoading } = useQuery({
+    queryKey: ["category", slug],
+    queryFn: async () => {
+      const { data } = await axios.get<Product[]>(
+        `https://fakestoreapi.com/products/category/${slug}`,
+      );
+      return data;
+    },
+  });
+
+  // Filtre State'leri
+  const [priceRange, setPriceRange] = useState(1000);
+  const [selectedColors, setSelectedColors] = useState<string[]>([]);
+
+  // Renk seçimini değiştir
+  const toggleColor = (color: string) => {
+    setSelectedColors((prev) =>
+      prev.includes(color) ? prev.filter((c) => c !== color) : [...prev, color],
+    );
+  };
+
+  // Filtreleme Fonksiyonu
+  const filteredProducts = products?.filter((product) => {
+    // Fiyat filtresi
+    if (product.price > priceRange) return false;
+
+    // Renk filtresi (renk seçilmişse)
+    if (selectedColors.length > 0) {
+      const productColors = getProductColors(product.id);
+      const hasMatchingColor = productColors.some((color) =>
+        selectedColors.includes(color),
+      );
+      if (!hasMatchingColor) return false;
+    }
+
+    return true;
+  });
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -28,6 +87,10 @@ export default function CategoryPage() {
       <FilterDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
+        priceRange={priceRange}
+        setPriceRange={setPriceRange}
+        selectedColors={selectedColors}
+        toggleColor={toggleColor}
       />
 
       <main className="container mx-auto px-4 py-8">
@@ -35,7 +98,9 @@ export default function CategoryPage() {
         <div className="flex items-center gap-2 text-sm text-black/60 mb-8 border-t pt-4">
           <span className="hover:text-black cursor-pointer">Home</span>
           <ChevronRight size={14} />
-          <span className="text-black font-medium capitalize">{slug}</span>
+          <span className="text-black font-medium capitalize">
+            {displayTitle}
+          </span>
         </div>
 
         <div className="flex gap-8">
@@ -75,17 +140,23 @@ export default function CategoryPage() {
                   "#06CAF5",
                   "#063AF5",
                   "#7D06F5",
+                  "#F506A4",
                 ].map((color) => (
                   <button
                     key={color}
-                    className="w-8 h-8 rounded-full border border-black/10"
+                    onClick={() => toggleColor(color)}
+                    className={`w-8 h-8 rounded-full border-2 transition-all ${
+                      selectedColors.includes(color)
+                        ? "border-black scale-110"
+                        : "border-black/10"
+                    }`}
                     style={{ backgroundColor: color }}
                   />
                 ))}
               </div>
             </div>
 
-            <button className="w-full bg-black text-white py-3 rounded-full font-medium text-sm">
+            <button className="w-full bg-black text-white py-3 rounded-full font-medium text-sm hover:bg-black/80 transition">
               Apply Filter
             </button>
           </aside>
@@ -94,7 +165,7 @@ export default function CategoryPage() {
           <div className="flex-1">
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-2xl lg:text-3xl font-bold capitalize">
-                {slug}
+                {displayTitle}
               </h1>
               <button
                 onClick={() => setIsDrawerOpen(true)}

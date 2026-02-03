@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
 /* Eğer üstteki @import çalışmazsa (v4 öncesi için) bunu kullan: */
 /* @tailwind base;
 @tailwind components;
