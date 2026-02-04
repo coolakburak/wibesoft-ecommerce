@@ -16,7 +16,6 @@ import ProductCard from "@/components/ProductCard";
 import Reviews from "@/components/Reviews";
 import Footer from "@/components/Footer";
 
-// Yardımcı Fonksiyon: Tekil Ürün Getirme
 const fetchProduct = async (id: string): Promise<Product> => {
   const { data } = await axios.get(`https://fakestoreapi.com/products/${id}`);
   return data;
@@ -26,16 +25,13 @@ export default function ProductDetailPage() {
   const { id } = useParams();
   const addToCart = useCartStore((state) => state.addToCart);
 
-  // Yerel State'ler (Miktar, Renk, Beden)
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState(0);
   const [selectedSize, setSelectedSize] = useState("Large");
 
-  // Mock Veriler (Tasarım uyumu için)
   const colors = ["#4F4631", "#314F4A", "#31344F"];
   const sizes = ["Small", "Medium", "Large", "X-Large"];
 
-  // TanStack Query: Ana Ürün Verisi
   const {
     data: product,
     isLoading,
@@ -46,7 +42,6 @@ export default function ProductDetailPage() {
     enabled: !!id,
   });
 
-  // TanStack Query: Önerilen Ürünler (Alttaki kısım için)
   const { data: relatedProducts } = useProducts(4);
 
   if (isLoading)
@@ -67,10 +62,8 @@ export default function ProductDetailPage() {
       <Navbar />
 
       <main className="flex-grow">
-        {/* 1. ÜRÜN BİLGİLERİ ALANI */}
         <section className="container mx-auto px-4 py-8 lg:py-12 border-b">
           <div className="flex flex-col lg:flex-row gap-10 lg:gap-16">
-            {/* SOL: Görsel Galerisi */}
             <div className="flex flex-col-reverse lg:flex-row gap-4 flex-1">
               <div className="flex lg:flex-col gap-4 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0">
                 {[1, 2, 3].map((_, i) => (
@@ -98,7 +91,6 @@ export default function ProductDetailPage() {
               </div>
             </div>
 
-            {/* SAĞ: Ürün Detayları */}
             <div className="flex-1 flex flex-col">
               <h1 className="text-3xl lg:text-5xl font-black uppercase mb-4 leading-none">
                 {product.title}
@@ -142,7 +134,6 @@ export default function ProductDetailPage() {
                 {product.description}
               </p>
 
-              {/* Renk Seçimi */}
               <div className="mb-6 border-b pb-6">
                 <p className="text-black/60 mb-4 font-medium">Select Colors</p>
                 <div className="flex gap-3">
@@ -159,7 +150,6 @@ export default function ProductDetailPage() {
                 </div>
               </div>
 
-              {/* Beden Seçimi */}
               <div className="mb-8 border-b pb-6">
                 <p className="text-black/60 mb-4 font-medium">Choose Size</p>
                 <div className="flex flex-wrap gap-3">
@@ -179,7 +169,6 @@ export default function ProductDetailPage() {
                 </div>
               </div>
 
-              {/* Miktar ve Buton */}
               <div className="flex gap-4">
                 <div className="flex items-center bg-[#F0F0F0] rounded-full px-6 py-4 gap-8">
                   <button
@@ -211,10 +200,8 @@ export default function ProductDetailPage() {
           </div>
         </section>
 
-        {/* 2. YORUMLAR BÖLÜMÜ */}
         <Reviews />
 
-        {/* 3. ÖNERİLEN ÜRÜNLER (You Might Also Like) */}
         <section className="container mx-auto px-4 py-16 lg:py-24">
           <h2 className="text-3xl lg:text-5xl font-black text-center mb-10 lg:mb-16 uppercase">
             You Might Also Like

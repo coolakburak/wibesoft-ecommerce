@@ -39,7 +39,6 @@ export default function CustomerReviews() {
   return (
     <section className="py-12 lg:py-20 overflow-hidden">
       <div className="container mx-auto px-4">
-        {/* Başlık ve Oklar */}
         <div className="flex justify-between items-end mb-8 lg:mb-10">
           <h2 className="text-[32px] lg:text-[48px] font-black uppercase leading-tight max-w-[280px] lg:max-w-none">
             OUR HAPPY CUSTOMERS
@@ -63,7 +62,6 @@ export default function CustomerReviews() {
           </div>
         </div>
 
-        {/* Yorum Kartları Alanı */}
         <div
           ref={scrollRef}
           className="flex gap-5 overflow-x-auto pb-6 no-scrollbar snap-x snap-mandatory"

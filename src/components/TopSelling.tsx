@@ -4,7 +4,6 @@ import { useProducts } from "@/hooks/useProducts";
 import ProductCard from "@/components/ProductCard";
 
 export default function TopSelling() {
-  // En çok satanları simüle etmek için 4 ürün çekiyoruz
   const { data: products, isLoading } = useProducts(4);
 
   return (

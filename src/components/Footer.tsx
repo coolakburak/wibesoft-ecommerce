@@ -3,7 +3,6 @@ import { Mail, Twitter, Facebook, Instagram, Github } from "lucide-react";
 export default function Footer() {
   return (
     <footer className="relative mt-40 bg-[#F0F0F0] pt-40 pb-10">
-      {/* NEWSLETTER BOX (Siyah Kutu) */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] lg:w-[1240px] bg-black rounded-[20px] p-8 lg:p-16 flex flex-col lg:flex-row justify-between items-center gap-8">
         <h2 className="text-3xl lg:text-5xl font-black text-white leading-tight lg:max-w-xl text-center lg:text-left">
           STAY UP TO DATE ABOUT OUR LATEST OFFERS
@@ -83,7 +82,6 @@ export default function Footer() {
         <div className="border-t border-gray-300 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
           <p>Shop.co © 2000-2023, All Rights Reserved</p>
           <div className="flex gap-2 bg-white p-1 rounded">
-            {/* Buraya Visa, Mastercard logoları (Image) gelebilir */}
             <div className="w-10 h-6 bg-gray-200 rounded"></div>
             <div className="w-10 h-6 bg-gray-200 rounded"></div>
             <div className="w-10 h-6 bg-gray-200 rounded"></div>

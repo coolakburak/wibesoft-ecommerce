@@ -30,7 +30,6 @@ export default function FilterDrawer({
           </button>
         </div>
 
-        {/* Fiyat Aralığı (Slider mantığı) */}
         <div className="mb-8 border-b pb-8">
           <h3 className="font-bold mb-4">Price</h3>
           <input
@@ -47,7 +46,6 @@ export default function FilterDrawer({
           </div>
         </div>
 
-        {/* Renk Seçimi (Daireler) */}
         <div className="mb-8 border-b pb-8">
           <h3 className="font-bold mb-4">Colors</h3>
           <div className="flex flex-wrap gap-3">
@@ -79,7 +77,6 @@ export default function FilterDrawer({
           </div>
         </div>
 
-        {/* Beden Seçimi (Rozetler) */}
         <div className="mb-8 border-b pb-8">
           <h3 className="font-bold mb-4">Size</h3>
           <div className="flex flex-wrap gap-2">

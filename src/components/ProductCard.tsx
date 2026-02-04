@@ -18,7 +18,6 @@ export default function ProductCard({ product }: { product: any }) {
         {product.title}
       </h3>
 
-      {/* Rating */}
       <div className="flex items-center gap-1 mb-1">
         <div className="flex text-yellow-400">
           {Array.from({ length: 5 }).map((_, i) => (
@@ -34,10 +33,9 @@ export default function ProductCard({ product }: { product: any }) {
         <span className="text-xs text-black/60">{product.rating.rate}/5</span>
       </div>
 
-      {/* Price */}
       <div className="flex items-center gap-2">
         <span className="text-lg lg:text-xl font-bold">${product.price}</span>
-        {/* İndirim simülasyonu */}
+
         <span className="text-lg lg:text-xl font-bold text-black/30 line-through">
           ${(product.price * 1.2).toFixed(2)}
         </span>
