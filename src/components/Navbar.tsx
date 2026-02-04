@@ -9,13 +9,11 @@ export default function Navbar() {
 
   return (
     <header className="w-full">
-      {/* Siyah Üst Bar */}
       <div className="bg-black text-white text-xs py-2 text-center px-4">
         Sign up and get 20% off to your first order.{" "}
         <span className="underline font-bold cursor-pointer">Sign Up Now</span>
       </div>
 
-      {/* Ana Navigasyon */}
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Menu className="block lg:hidden w-6 h-6" />
@@ -24,7 +22,6 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Masaüstü Menü (Mobilde Gizli) */}
         <ul className="hidden lg:flex items-center gap-6 text-sm">
           <li>
             <Link href="/">Shop</Link>
@@ -40,7 +37,6 @@ export default function Navbar() {
           </li>
         </ul>
 
-        {/* Arama Çubuğu (Mobilde sadece ikon, Masaüstünde input) */}
         <div className="hidden md:flex flex-1 max-w-md relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
@@ -50,7 +46,6 @@ export default function Navbar() {
           />
         </div>
 
-        {/* İkonlar */}
         <div className="flex items-center gap-3 md:gap-4">
           <Search className="md:hidden w-6 h-6" />
           <Link href="/cart" className="relative">

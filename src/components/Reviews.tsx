@@ -13,13 +13,11 @@ const reviews = [
     date: "August 16, 2023",
     text: "The t-shirt exceeded my expectations! The colors are vibrant and the print quality is top-notch. Being a UI/UX designer myself, I'm quite picky about aesthetics, and this t-shirt definitely gets a thumbs up from me.",
   },
-  // Daha fazla yorum eklenebilir...
 ];
 
 export default function Reviews() {
   return (
     <section className="container mx-auto px-4 py-10">
-      {/* Sekme Başlıkları */}
       <div className="flex justify-around border-b mb-10">
         <button className="pb-4 text-gray-500">Product Details</button>
         <button className="pb-4 border-b-2 border-black font-bold">
@@ -43,7 +41,6 @@ export default function Reviews() {
         </div>
       </div>
 
-      {/* Yorum Kartları */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {reviews.map((rev) => (
           <div

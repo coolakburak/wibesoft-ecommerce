@@ -41,7 +41,6 @@ export default function HomePage() {
       <Hero />
 
       <main className="flex-grow">
-        {/* NEW ARRIVALS */}
         <section className="container mx-auto px-4 py-12">
           <h2 className="text-3xl lg:text-5xl font-black text-center mb-8 lg:mb-14 uppercase">
             New Arrivals
@@ -69,19 +68,15 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* TOP SELLING */}
         <TopSelling />
 
-        {/* DRESS STYLE */}
         <section className="container mx-auto px-4 py-12">
           <DressStyle />
         </section>
 
-        {/* REVIEWS */}
         <CustomerReviews />
       </main>
 
-      {/* FOOTER - Mutlaka main dışına almalısın */}
       <Footer />
     </div>
   );

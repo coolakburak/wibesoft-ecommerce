@@ -8,10 +8,9 @@ import { Product } from "@/types";
 import ProductCard from "@/components/ProductCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import FilterDrawer from "@/components/FilterDrawer"; // Mobil filtre bileşeni
+import FilterDrawer from "@/components/FilterDrawer";
 import { SlidersHorizontal, ChevronRight } from "lucide-react";
 
-// Renk atama fonksiyonu (API'de renk verisi olmadığı için)
 const getProductColors = (productId: number): string[] => {
   const colorPalette = [
     "#00C12B",
@@ -23,7 +22,7 @@ const getProductColors = (productId: number): string[] => {
     "#7D06F5",
     "#F506A4",
   ];
-  // Her ürüne ID'sine göre 1-3 arası renk ata
+
   const numColors = (productId % 3) + 1;
   const startIdx = productId % colorPalette.length;
   return Array.from(
@@ -40,7 +39,6 @@ export default function CategoryPage() {
   const slug = decodeURIComponent(params.slug as string);
   const displayTitle = searchParams.get("title") || slug;
 
-  // Kategoriye göre ürünleri çek
   const { data: products, isLoading } = useQuery({
     queryKey: ["category", slug],
     queryFn: async () => {
@@ -51,23 +49,18 @@ export default function CategoryPage() {
     },
   });
 
-  // Filtre State'leri
   const [priceRange, setPriceRange] = useState(1000);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
 
-  // Renk seçimini değiştir
   const toggleColor = (color: string) => {
     setSelectedColors((prev) =>
       prev.includes(color) ? prev.filter((c) => c !== color) : [...prev, color],
     );
   };
 
-  // Filtreleme Fonksiyonu
   const filteredProducts = products?.filter((product) => {
-    // Fiyat filtresi
     if (product.price > priceRange) return false;
 
-    // Renk filtresi (renk seçilmişse)
     if (selectedColors.length > 0) {
       const productColors = getProductColors(product.id);
       const hasMatchingColor = productColors.some((color) =>
@@ -83,7 +76,6 @@ export default function CategoryPage() {
     <div className="flex flex-col min-h-screen">
       <Navbar />
 
-      {/* Mobil Filtre Menüsü */}
       <FilterDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
@@ -94,7 +86,6 @@ export default function CategoryPage() {
       />
 
       <main className="container mx-auto px-4 py-8">
-        {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-black/60 mb-8 border-t pt-4">
           <span className="hover:text-black cursor-pointer">Home</span>
           <ChevronRight size={14} />
@@ -104,14 +95,12 @@ export default function CategoryPage() {
         </div>
 
         <div className="flex gap-8">
-          {/* MASAÜSTÜ FİLTRE PANELİ */}
           <aside className="hidden lg:block w-72 border border-black/10 rounded-[20px] p-6 h-fit">
             <div className="flex justify-between items-center mb-6 pb-6 border-b">
               <h2 className="text-xl font-bold">Filters</h2>
               <SlidersHorizontal size={20} className="text-black/60" />
             </div>
 
-            {/* Fiyat Filtresi */}
             <div className="mb-6 pb-6 border-b">
               <h3 className="font-bold mb-4">Price</h3>
               <input
@@ -128,7 +117,6 @@ export default function CategoryPage() {
               </div>
             </div>
 
-            {/* Renkler (Görseldeki gibi) */}
             <div className="mb-6 pb-6 border-b">
               <h3 className="font-bold mb-4">Colors</h3>
               <div className="flex flex-wrap gap-2">
@@ -161,7 +149,6 @@ export default function CategoryPage() {
             </button>
           </aside>
 
-          {/* ÜRÜN LİSTESİ */}
           <div className="flex-1">
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-2xl lg:text-3xl font-bold capitalize">
